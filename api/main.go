@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main () {
+func main() {
 	router := gin.Default()
 	conn, err := database.Connect()
 	if err != nil {
@@ -31,6 +31,11 @@ func setupRoutes(router *gin.Engine, service *services.NotificationService) {
 
 	controller := controllers.NewNotificationController(service)
 
-	router.POST("/notifications", controller.SaveNotification)
-}
+	// change structure to get: userId, read(boolean), imageUrl, sender.
+	// add get notifications by userId, getAll notifications, set all as read.
+	// add a way to validate the user cookies or validate the user credentials when create a notification.
 
+	router.POST("/notifications", controller.SaveNotification)
+	router.GET("/notifications", controller.GetNotifications)
+	router.PATCH("/notifications/:id", controller.UpdateNotification)
+}
